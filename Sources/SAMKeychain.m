@@ -30,11 +30,21 @@ NSString *const kSAMKeychainWhereKey = @"svce";
 
 
 + (nullable NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
+    [[self class] SS_deleteKeychainInCaseOfAppUninstallForService:serviceName account:account];
 	SAMKeychainQuery *query = [[SAMKeychainQuery alloc] init];
 	query.service = serviceName;
 	query.account = account;
 	[query fetch:error];
 	return query.password;
+}
+
++ (void)SS_deleteKeychainInCaseOfAppUninstallForService:(NSString *)serviceName account:(NSString *)account {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kSSKeychainFirstRunKey]) {
+        [[self class] deletePasswordForService:serviceName account:account];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSSKeychainFirstRunKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 + (nullable NSData *)passwordDataForService:(NSString *)serviceName account:(NSString *)account {
