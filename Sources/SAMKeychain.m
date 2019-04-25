@@ -17,6 +17,7 @@ NSString *const kSAMKeychainDescriptionKey = @"desc";
 NSString *const kSAMKeychainLabelKey = @"labl";
 NSString *const kSAMKeychainLastModifiedKey = @"mdat";
 NSString *const kSAMKeychainWhereKey = @"svce";
+NSString *const kSSKeychainFirstRunKey = @"com.samsoffes.sskeychain.firstrun";
 
 #if __IPHONE_4_0 && TARGET_OS_IPHONE
 	static CFTypeRef SAMKeychainAccessibilityType = NULL;
